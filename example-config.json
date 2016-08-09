@@ -1,0 +1,10 @@
+{
+	"development": {
+		"database":
+		{
+			"name": "naravel",
+			"username": "root",
+			"password": ""
+		}
+	}
+}

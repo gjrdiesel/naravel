@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "fs-extra": "^0.30.0",
+    "minimist": "^1.2.0",
+    "sequelize": "^3.23.6"
+  }
+}
