@@ -5,7 +5,10 @@ var isAuthenticated = require('./../Http/Middleware/Authenticated.js');
  */
 module.exports = function(route){
 	route.get('/', isAuthenticated, require('../Http/Controllers/HomeController.js').index);
+
+	route.get('/api', isAuthenticated, require('../Http/Controllers/ApiController.js').index);
 	
-	route.get('/login', require('../Http/Controllers/AuthController.js').getLogin);
+	route.get('/login', require('../Http/Controllers/AuthController.js').getLogin);	
 	route.post('/login', require('../Http/Controllers/AuthController.js').checkLogin);
+	route.get('/logout', require('../Http/Controllers/AuthController.js').logout);
 }

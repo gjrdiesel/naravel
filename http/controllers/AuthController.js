@@ -5,6 +5,11 @@ module.exports = {
 	{
 		res.render('auth/login')
 	},
+	logout: function(req,res)
+	{
+		req.session.destroy();
+		res.redirect('/login?msg=logged-out');
+	},
 	checkLogin: function(req,res)
 	{
 		console.log(req);
@@ -14,13 +19,14 @@ module.exports = {
 		}).then(function(user){
 			
 			if( !user ){
-				return res.redirect('/login?login=no-user');
+				return res.redirect('/login?msg=no-user');
 			}
 
 			if( user.password == (req.body.password) ){
-				return res.redirect('/login?login=true');
+				req.session.loggedIn = true;
+				return res.redirect('/');
 			} else {
-				return res.redirect('/login?login=wrong-password');
+				return res.redirect('/login?msg=wrong-password');
 			}
 
 		});	

@@ -1,1 +1,59 @@
-Hello, Welcome to Status.DreamSportingTrips.com
+<ttfb-chart width="400" height="200"></ttfb-chart>
+<script>
+    Components.extend('ttfb-chart', function (key)
+    {
+        google.charts.load('current', {'packages': ['line', 'corechart']});
+        google.charts.setOnLoadCallback(getData);
+
+        setTimeout(function(){
+            setInterval(getData,1800);
+        }, 3000);
+
+        function getData() {
+
+            var chartDiv = document.getElementsByTagName(key);
+
+            if (!chartDiv) {
+                return;
+            }
+
+            var api = $.get('/api', function (res) {
+                drawChart(res.recent, res.hours, chartDiv[0]);
+            });
+        }
+
+        function drawChart(recent, hours, chartDiv) {
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('number', 'Hourly');
+            data.addColumn('number', "Avg TTFB");
+
+            data.addRows(recent);
+
+            var classicOptions = {
+                title: 'Latest Hourly TTFB',
+                width: chartDiv.getAttribute('width'),
+                height: chartDiv.getAttribute('height'),
+                // Gives each series an axis that matches the vAxes number below.
+                series: {
+                    0: {targetAxisIndex: 0},
+                },
+                vAxes: {
+                    // Adds titles to each axis.
+                    0: {title: 'Reponse (MS)'}
+                },
+                hAxis: {
+                    ticks: hours
+                },
+                vAxis: {
+                    viewWindow: {
+                        max: 1500
+                    }
+                }
+            };
+
+            var classicChart = new google.visualization.LineChart(chartDiv);
+            classicChart.draw(data, classicOptions);
+        }
+    });
+</script>
