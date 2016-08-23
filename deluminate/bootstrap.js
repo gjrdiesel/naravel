@@ -1,5 +1,8 @@
 module.exports = function(dirname){
 	var express = require('express');
+
+	var bodyParser = require('body-parser');
+	
 	var app = express();
 	var models = require(dirname + '/http/models');
 	var exphbs  = require('express-handlebars');
@@ -11,7 +14,9 @@ module.exports = function(dirname){
 		partialsDir: dirname + '/resources/views/partials'
 	}));
 	app.set('view engine', '.hbs');
-	app.set('views', dirname + '/resources/views');
+	app.set('views', dirname + '/resources/views');  
+	
+	app.use(bodyParser.urlencoded({ extended: false }))
 
 	app.use(express.static('public/'));
 
